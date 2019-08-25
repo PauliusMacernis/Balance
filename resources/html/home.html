@@ -1,6 +1,40 @@
 {% extends "base.html" %}
 {% block content %}
-  <div class="content">
-  {{docs|markdown}}
+<div class="content">
+  <div class="columns">
+    <div class="column">
+      <form method="POST" action="/">
+        {% csrf-field %}
+        <p>
+          Datetime:
+          <input class="input" type="text" name="datetime_action" value="{{datetime_action}}" />
+        </p>
+        {% if errors.datetime_action %}
+        <div class="notification is-danger">{{errors.datetime_action|join}}</div>
+        {% endif %}
+        <p>
+          Amount:
+          <input class="input" type="text" name="amount" value="{{amount}}" />
+        </p>
+        {% if errors.message %}
+        <div class="notification is-danger">{{errors.amount|join}}</div>
+        {% endif %}
+        <input type="submit" class="button is-primary" value="add" />
+      </form>
+    </div>
   </div>
+  <div class="columns">
+    <div class="column">
+      <h3>Records</h3>
+      <ul class="messages">
+        {% for item in records %}
+        <li>
+          <time>{{item.datetime_action|date:"yyyy-MM-dd HH:mm:ss"}}</time>
+          <p>{{item.amount}}</p>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>
 {% endblock %}
