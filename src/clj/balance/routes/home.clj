@@ -12,13 +12,13 @@
 (def message-schema
   [[:datetime_action
     st/required
-    st/string]
+    st/string
+    {:message  "datetime must contain 19 characters, for example: 2019-08-27 21:56:00"
+     :validate #(= (count %) 19)}]
 
    [:amount
     st/required
     st/string
-;    {:message "message must contain at least 3 characters"
-;     :validate #(> (count %) 3)}
     ]])
 
 (defn validate-message [params]

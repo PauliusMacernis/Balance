@@ -16,7 +16,7 @@
           Amount:
           <input class="input" type="text" name="amount" value="{{amount}}" />
         </p>
-        {% if errors.message %}
+        {% if errors.amount %}
         <div class="notification is-danger">{{errors.amount|join}}</div>
         {% endif %}
         <input type="submit" class="button is-primary" value="add" />

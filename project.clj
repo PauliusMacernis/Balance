@@ -1,7 +1,7 @@
 (defproject balance "0.1.0-SNAPSHOT"
 
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
+  :description "Web application to track balance (income, outcome)"
+  :url "http://localhost:3000"
 
   :dependencies [[ch.qos.logback/logback-classic "1.2.3"]
                  [cheshire "5.8.1"]
