@@ -5,33 +5,36 @@
     [clojure.test :refer :all]
     [clojure.java.jdbc :as jdbc]
     [balance.config :refer [env]]
-    [mount.core :as mount]))
+    [mount.core :as mount])
+  (:import (java.time LocalDateTime)))
 
 (use-fixtures
- :once
- (fn [f]
-   (mount/start
-    #'balance.config/env
-    #'balance.db.core/*db*)
-   (migrations/migrate ["migrate"] (select-keys env [:database-url]))
-   (f)))
+  :once
+  (fn [f]
+    (mount/start
+      #'balance.config/env
+      #'balance.db.core/*db*)
+    (migrations/migrate ["migrate"] (select-keys env [:database-url]))
+    (f)))
 
 (deftest test-record
   (jdbc/with-db-transaction [t-conn *db*]
                             (jdbc/db-set-rollback-only! t-conn)
-                            (let [timestamp (java.time.LocalDateTime/now)]
+                            (let [timestamp (LocalDateTime/now)]
+                              ; Is record created?
                               (is (= 1 (db/create-record!
-                                        t-conn
-                                        {:datetime_action "2019-08-25T20:01:01"
-                                         :amount "123"
-                                         :datetime_created timestamp
-                                         :datetime_updated timestamp}
-                                        {:connection t-conn})))
+                                         t-conn
+                                         {:datetime_action  timestamp
+                                          :amount           123
+                                          :datetime_created timestamp
+                                          :datetime_updated timestamp}
+                                         {:connection t-conn})))
+                              ; Is record created with the data expected?
                               (is (=
-                                   {:datetime_action "2019-08-25T20:01:01"
-                                    :amount "123"
-                                    :datetime_created timestamp
-                                    :datetime_updated timestamp}
-                                   (-> (db/get-records t-conn {})
-                                       (first)
-                                       (select-keys [:datetime_action :amount :datetime_created :datetime_updated])))))))
+                                    {:datetime_action  timestamp
+                                     :amount           123
+                                     :datetime_created timestamp
+                                     :datetime_updated timestamp}
+                                    (-> (db/get-records t-conn {})
+                                        (first)
+                                        (select-keys [:datetime_action :amount :datetime_created :datetime_updated])))))))

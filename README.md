@@ -24,10 +24,15 @@ To start the application from the REPL using `start` function defined in the `us
 
     lein repl
     
-To run test:
+To run test, once:
     
     lein test
-
+    
+To run test, constantly:
+    
+    lein test-refresh
+    
+    
 ## License
 
 Copyright © 2019 FIXME
