@@ -1,6 +1,7 @@
 CREATE TABLE records
 (
  id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+ -- https://stackoverflow.com/questions/14038746/how-to-insert-a-microsecond-precision-datetime-into-mysql
  datetime_action DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
  datetime_created DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
  datetime_updated DATETIME(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
